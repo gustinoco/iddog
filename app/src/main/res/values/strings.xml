@@ -3,4 +3,13 @@
     <string name="enter_email">Entre com seu e-mail</string>
     <string name="signup">Entrar</string>
     <string name="invalid_email">E-mail inválido</string>
+<string name="add_item">Adicionar categoria</string>
+
+    <string-array name="list_category_default">
+        <item>Husky</item>
+        <item>Hound</item>
+        <item>Pug</item>
+        <item>Labrador</item>
+
+    </string-array>
 </resources>

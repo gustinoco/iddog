@@ -25,5 +25,6 @@
             android:value="cb7d64058037dde7f68a55923517b499c35b6da3" />
 
         <activity android:name=".ui.login.LoginActivity" />
+        <activity android:name=".ui.home.HomeActivity" />
     </application>
 </manifest>
