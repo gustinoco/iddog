@@ -1,9 +1,11 @@
 package br.com.tinoco.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
 import br.com.tinoco.R
+import br.com.tinoco.ui.login.LoginActivity
 import br.com.tinoco.util.Constants
 
 class SplashActivity : AppCompatActivity() {
@@ -12,8 +14,8 @@ class SplashActivity : AppCompatActivity() {
 
     internal val mRunnable: Runnable = Runnable {
         if (!isFinishing) {
-            //val intent = Intent(applicationContext, LoginActivity::class.java)
-            //startActivity(intent)
+            val intent = Intent(applicationContext, LoginActivity::class.java)
+            startActivity(intent)
             finish()
         }
     }

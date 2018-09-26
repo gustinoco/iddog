@@ -16,6 +16,7 @@ ext {
     rxKotlin_version = '2.3.0'
     rxandroid_version = '2.1.0'
     crashlyticsVersion ='2.9.5@aar'
+    paperVersion = '2.6'
 }
 
 buildscript {
