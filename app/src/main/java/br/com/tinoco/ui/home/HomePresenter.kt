@@ -3,6 +3,7 @@ package br.com.tinoco.ui.home
 import br.com.tinoco.api.UserApiClient
 import br.com.tinoco.models.response.CategoryResponse
 import br.com.tinoco.util.Constants
+import br.com.tinoco.util.ErrorUtils
 import io.paperdb.Paper
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -43,7 +44,7 @@ class HomePresenter(val homeView: HomeContract.View) : HomeContract.Presenter {
                 },
                         { error ->
                             homeView.showLoading(false)
-                            homeView.showMessage(error.message!!)
+                            homeView.showMessage(ErrorUtils.parseError(error))
                         })
         subscriptions.add(subscribe)
     }
