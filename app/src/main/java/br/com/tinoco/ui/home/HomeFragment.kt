@@ -6,10 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import br.com.tinoco.R
+import br.com.tinoco.ui.detail.DetailDogDialog
 import br.com.tinoco.util.showSnack
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -29,9 +28,14 @@ class HomeFragment : Fragment(), HomeContract.View {
 
     override fun showSuccess(message: String, list: List<String>) {
         txtTypeCategory.text = message
-        val listAdapter = CategoryAdapter(list as MutableList<String>, activity!!.applicationContext)
+        val listAdapter = CategoryAdapter(list as MutableList<String>, activity!!.applicationContext, { item: String -> partItemClicked(item) })
         rcvDogs.adapter = listAdapter
         list.let { listAdapter.addOpenSourcesToList(it) }
+    }
+
+    private fun partItemClicked(partItem: String) {
+        val d = DetailDogDialog.newInstance(partItem)
+        d.show(activity?.supportFragmentManager, "TESTE")
     }
 
     override fun showLoading(active: Boolean) {
@@ -71,7 +75,6 @@ class HomeFragment : Fragment(), HomeContract.View {
                 }
             }
         })
-
         return root
     }
 
