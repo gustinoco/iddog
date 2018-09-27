@@ -17,7 +17,6 @@ interface HomeContract {
     interface Presenter : BasePresenter {
         fun loadFeed(category: String)
         fun addCategory(category: String)
-        fun addItens()
     }
 
 }

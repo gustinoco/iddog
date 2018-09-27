@@ -8,7 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import br.com.tinoco.R
+import br.com.tinoco.adapter.CategoryAdapter
 import br.com.tinoco.ui.detail.DetailDogDialog
+import br.com.tinoco.util.Constants
 import br.com.tinoco.util.showSnack
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -35,7 +37,7 @@ class HomeFragment : Fragment(), HomeContract.View {
 
     private fun partItemClicked(partItem: String) {
         val d = DetailDogDialog.newInstance(partItem)
-        d.show(activity?.supportFragmentManager, "TESTE")
+        d.show(activity?.supportFragmentManager, Constants.FRAG_SUPPORT)
     }
 
     override fun showLoading(active: Boolean) {
@@ -62,21 +64,7 @@ class HomeFragment : Fragment(), HomeContract.View {
         val root = inflater.inflate(R.layout.fragment_home, container, false)
         val rcv = root.findViewById<RecyclerView>(R.id.rcvDogs)
         rcv.layoutManager = GridLayoutManager(context, 3)
-        rcv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
-                val layoutManager = GridLayoutManager::class.java.cast(recyclerView.layoutManager)
-                val visibleItemCount = layoutManager!!.childCount
-                val totalItemCount = layoutManager.itemCount
-                val pastVisibleItems = layoutManager.findFirstCompletelyVisibleItemPosition()
-
-                if (pastVisibleItems + visibleItemCount >= totalItemCount) {
-                    presenter.addItens()
-                }
-            }
-        })
         return root
     }
-
 
 }
