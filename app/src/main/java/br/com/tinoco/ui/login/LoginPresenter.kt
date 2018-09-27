@@ -14,7 +14,7 @@ class LoginPresenter(val loginView: LoginContract.View) : LoginContract.Presente
 
     private val api: UserApiClient = UserApiClient.create()
     private val subscriptions = CompositeDisposable()
-    private lateinit var email: String
+   var email: String? = ""
 
     override fun start() {
         email = ""
@@ -27,14 +27,14 @@ class LoginPresenter(val loginView: LoginContract.View) : LoginContract.Presente
     }
 
     override fun signup() {
-        val validation = ValidationUtil.isValidEmail(email)
+        val validation = ValidationUtil.isValidEmail(email.toString())
 
         loginView.showErrorEmail(validation)
-        if (!validation || email.isEmpty())
+        if (!validation || email!!.isEmpty())
             return
 
         loginView.showLoading(true)
-        var subscribe = api.login(LoginRequest(email)).subscribeOn(Schedulers.io())
+        var subscribe = api.login(LoginRequest(email!!)).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribe({ loginResponse: LoginResponse ->
                     loginView.showLoading(false)
                     advanceScreen(loginResponse.response.token)

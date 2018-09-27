@@ -18,6 +18,9 @@ ext {
     crashlyticsVersion ='2.9.5@aar'
     paperVersion = '2.6'
     glideVersion = '4.4.0'
+    mockitoVersion = '1.5.0'
+    mockitoTestVersion = '2.8.47'
+    kotlinJunitTest = '1.2.31'
 }
 
 buildscript {
