@@ -4,6 +4,7 @@ import br.com.tinoco.api.UserApiClient
 import br.com.tinoco.models.request.LoginRequest
 import br.com.tinoco.models.response.LoginResponse
 import br.com.tinoco.util.Constants
+import br.com.tinoco.util.ErrorUtils
 import br.com.tinoco.util.ValidationUtil
 import io.paperdb.Paper
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -40,8 +41,9 @@ class LoginPresenter(val loginView: LoginContract.View) : LoginContract.Presente
                     advanceScreen(loginResponse.response.token)
                 },
                         { error ->
+                            loginView.showMessage(ErrorUtils.parseError(error))
                             loginView.showLoading(false)
-                            loginView.showMessage(error.message!!)
+
                         })
         subscriptions.add(subscribe)
     }
