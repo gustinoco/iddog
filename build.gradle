@@ -17,6 +17,7 @@ ext {
     rxandroid_version = '2.1.0'
     crashlyticsVersion ='2.9.5@aar'
     paperVersion = '2.6'
+    glideVersion = '4.4.0'
 }
 
 buildscript {
@@ -26,6 +27,7 @@ buildscript {
         jcenter()
         maven { url { 'https://dl.bintray.com/kotlin/kotlin-eap/' } }
         maven { url 'https://maven.fabric.io/public' }
+        maven { url "https://jitpack.io" }
     }
     dependencies {
         classpath "com.android.tools.build:gradle:3.2.0"
@@ -40,6 +42,7 @@ allprojects {
         jcenter()
         mavenCentral()
         maven { url { 'https://dl.bintray.com/kotlin/kotlin-eap/' } }
+        maven { url "https://jitpack.io" }
 
 
     }
