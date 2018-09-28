@@ -1,7 +1,7 @@
 package br.com.tinoco.ui.login
 
-import br.com.tinoco.util.BasePresenter
-import br.com.tinoco.util.BaseView
+import br.com.tinoco.util.mvp.BasePresenter
+import br.com.tinoco.util.mvp.BaseView
 
 interface LoginContract {
 
@@ -12,7 +12,7 @@ interface LoginContract {
         fun showSuccess(message: String)
     }
 
-    interface Presenter : BasePresenter {
+    interface Presenter : BasePresenter<View> {
         fun signup()
         fun emailChanged(text: String)
     }

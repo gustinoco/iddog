@@ -4,52 +4,47 @@ import br.com.tinoco.api.UserApiClient
 import br.com.tinoco.models.response.CategoryResponse
 import br.com.tinoco.util.Constants
 import br.com.tinoco.util.ErrorUtils
+import br.com.tinoco.util.mvp.RxPresenter
+import br.com.tinoco.util.rx.SchedulerProvider
 import io.paperdb.Paper
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 
-class HomePresenter(val homeView: HomeContract.View) : HomeContract.Presenter {
+class HomePresenter(val api: UserApiClient, private val schedulerProvider: SchedulerProvider) : RxPresenter<HomeContract.View>(), HomeContract.Presenter {
 
-    private val api: UserApiClient = UserApiClient.create()
-    private val subscriptions = CompositeDisposable()
+    override var view: HomeContract.View? = null
 
     override fun start() {
-        homeView.showLoading(false)
+        view?.showLoading(false)
         fillDrawerMenu()
     }
 
-
     fun fillDrawerMenu() {
-        homeView.getCategory().forEach {
-            homeView.newCategory(it)
+        view?.getCategory()?.forEach {
+            view?.newCategory(it)
         }
     }
 
     override fun addCategory(category: String) {
-        homeView.newCategory(category)
-    }
-
-    init {
-        homeView.presenter = this
+        view?.newCategory(category)
     }
 
     override fun loadFeed(category: String) {
 
-        homeView.showLoading(true)
-        var subscribe = api.dogs(category.toLowerCase(), Paper.book().read(Constants.BD)).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread()).subscribe({ response: CategoryResponse ->
-                    homeView.showLoading(false)
-                    showResult(response)
-                },
-                        { error ->
-                            homeView.showLoading(false)
-                            homeView.showMessage(ErrorUtils.parseError(error))
-                        })
-        subscriptions.add(subscribe)
+        view?.showLoading(true)
+        launch {
+            api.dogs(category.toLowerCase(), Paper.book().read(Constants.BD)).subscribeOn(schedulerProvider.io())
+                    .observeOn(schedulerProvider.ui()).subscribe({ response: CategoryResponse ->
+                        view?.showLoading(false)
+                        showResult(response)
+                    },
+                            { error ->
+                                view?.showLoading(false)
+                                view?.showMessage(ErrorUtils.parseError(error))
+                            })
+
+        }
     }
 
     fun showResult(response: CategoryResponse) {
-        homeView.showSuccess(response.category, response.list)
+        view?.showSuccess(response.category, response.list)
     }
 }

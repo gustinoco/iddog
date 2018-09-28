@@ -1,7 +1,7 @@
 package br.com.tinoco.ui.home
 
-import br.com.tinoco.util.BasePresenter
-import br.com.tinoco.util.BaseView
+import br.com.tinoco.util.mvp.BasePresenter
+import br.com.tinoco.util.mvp.BaseView
 
 interface HomeContract {
 
@@ -14,7 +14,7 @@ interface HomeContract {
     }
 
 
-    interface Presenter : BasePresenter {
+    interface Presenter : BasePresenter<View> {
         fun loadFeed(category: String)
         fun addCategory(category: String)
     }

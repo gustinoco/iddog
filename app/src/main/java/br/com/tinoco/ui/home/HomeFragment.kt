@@ -14,9 +14,12 @@ import br.com.tinoco.util.Constants
 import br.com.tinoco.util.showSnack
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.fragment_home.*
+import org.koin.android.ext.android.inject
 
 
 class HomeFragment : Fragment(), HomeContract.View {
+
+    override val presenter: HomeContract.Presenter by inject()
 
     override fun getCategory(): List<String> {
         return resources.getStringArray(R.array.list_category_default).toList()
@@ -51,9 +54,6 @@ class HomeFragment : Fragment(), HomeContract.View {
         view?.showSnack(message)
     }
 
-    override lateinit var presenter: HomeContract.Presenter
-
-
     companion object {
         fun newInstance() = HomeFragment()
     }
@@ -66,5 +66,4 @@ class HomeFragment : Fragment(), HomeContract.View {
         rcv.layoutManager = GridLayoutManager(context, 3)
         return root
     }
-
 }
