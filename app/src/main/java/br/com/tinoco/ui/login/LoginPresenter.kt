@@ -4,51 +4,52 @@ import br.com.tinoco.api.UserApiClient
 import br.com.tinoco.models.request.LoginRequest
 import br.com.tinoco.models.response.LoginResponse
 import br.com.tinoco.util.Constants
+import br.com.tinoco.util.ErrorUtils
+import br.com.tinoco.util.mvp.RxPresenter
 import br.com.tinoco.util.ValidationUtil
+import br.com.tinoco.util.rx.SchedulerProvider
 import io.paperdb.Paper
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 
-class LoginPresenter(val loginView: LoginContract.View) : LoginContract.Presenter {
+class LoginPresenter(private val api: UserApiClient, private val schedulerProvider: SchedulerProvider) : RxPresenter<LoginContract.View>(), LoginContract.Presenter {
 
-    private val api: UserApiClient = UserApiClient.create()
-    private val subscriptions = CompositeDisposable()
-    private lateinit var email: String
+    override var view: LoginContract.View? = null
+
+    var email: String? = ""
 
     override fun start() {
         email = ""
-        loginView.showLoading(false)
+        view?.showLoading(false)
     }
 
     init {
-        loginView.presenter = this
         Paper.book().delete(Constants.BD)
     }
 
     override fun signup() {
-        val validation = ValidationUtil.isValidEmail(email)
+        val validation = ValidationUtil.isValidEmail(email.toString())
 
-        loginView.showErrorEmail(validation)
-        if (!validation || email.isEmpty())
+        view?.showErrorEmail(validation)
+        if (!validation || email!!.isEmpty())
             return
 
-        loginView.showLoading(true)
-        var subscribe = api.login(LoginRequest(email)).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread()).subscribe({ loginResponse: LoginResponse ->
-                    loginView.showLoading(false)
-                    advanceScreen(loginResponse.response.token)
-                },
-                        { error ->
-                            loginView.showLoading(false)
-                            loginView.showMessage(error.message!!)
-                        })
-        subscriptions.add(subscribe)
+        view?.showLoading(true)
+        launch {
+            api.login(LoginRequest(email!!)).subscribeOn(schedulerProvider.io())
+                    .observeOn(schedulerProvider.ui()).subscribe({ loginResponse: LoginResponse ->
+                        view?.showLoading(false)
+                        advanceScreen(loginResponse.response.token)
+                    },
+                            { error ->
+                                view?.showMessage(ErrorUtils.parseError(error))
+                                view?.showLoading(false)
+
+                            })
+        }
     }
 
     fun advanceScreen(token: String) {
         Paper.book().write(Constants.BD, token)
-        loginView.showSuccess(token)
+        view?.showSuccess(token)
     }
 
     override fun emailChanged(text: String) {

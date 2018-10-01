@@ -1,24 +1,26 @@
 package br.com.tinoco.ui.login
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import br.com.tinoco.R
+import br.com.tinoco.ui.home.HomeActivity
 import br.com.tinoco.util.showSnack
 import kotlinx.android.synthetic.main.activity_login.*
+import org.koin.android.ext.android.inject
 
 class LoginActivity : AppCompatActivity(), LoginContract.View {
 
-    override lateinit var presenter: LoginContract.Presenter
+    override val presenter: LoginContract.Presenter by inject()
     lateinit var view: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         view = findViewById(android.R.id.content)
-        presenter = LoginPresenter(this)
         initComponentsConfigurations()
     }
 
@@ -46,9 +48,8 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
     }
 
     override fun showSuccess(message: String) {
-       // val intent = Intent(applicationContext, HomeActivity::class.java)
-       // startActivity(intent)
-        showMessage("Token: $message")
+        val intent = Intent(applicationContext, HomeActivity::class.java)
+        startActivity(intent)
     }
 
     override fun showLoading(active: Boolean) {
@@ -64,6 +65,12 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
 
     override fun onResume() {
         super.onResume()
+        presenter.subscribe(this)
         presenter.start()
+    }
+
+    override fun onPause() {
+        presenter.unSubscribe()
+        super.onPause()
     }
 }
