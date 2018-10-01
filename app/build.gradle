@@ -11,7 +11,7 @@ repositories {
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "br.com.br.com.iddog.br.com.tinoco"
+        applicationId "br.com.iddog.tinoco"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -38,7 +38,6 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
     implementation "androidx.appcompat:appcompat:$rootProject.androidXVersion"
     implementation "com.google.android.material:material:$rootProject.androidXVersion"
-    implementation "androidx.exifinterface:exifinterface:$rootProject.androidXVersion"
     implementation "androidx.recyclerview:recyclerview:$rootProject.androidXVersion"
     implementation "androidx.core:core-ktx:$rootProject.androidXVersion"
 
