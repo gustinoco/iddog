@@ -7,5 +7,6 @@ class Constants {
         const val BD = "iddog"
         const val IDENTIFIER_URL = "IDENTIFIER_URL"
         const val BUNDLE_TEXT = "BUNDLE_TEXT"
+        const val FRAG_SUPPORT = "FRAG_SUPPORT"
     }
 }

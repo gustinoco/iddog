@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import androidx.fragment.app.DialogFragment
 import br.com.tinoco.R
@@ -26,6 +27,8 @@ class DetailDogDialog : DialogFragment() {
         Glide.with(activity)
                 .load(url)
                 .into(ivDog)
+        val btnClose = view.findViewById<Button>(R.id.btnClose)
+        btnClose.setOnClickListener { dialog.dismiss() }
     }
 
     companion object {

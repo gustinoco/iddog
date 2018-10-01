@@ -3,6 +3,8 @@
     <string name="enter_email">Entre com seu e-mail</string>
     <string name="signup">Entrar</string>
     <string name="invalid_email">E-mail inválido</string>
+    <string name="close">Fechar</string>
+    <string name="press_back_again">Pressione voltar novamente para fechar a aplicação</string>
 <string name="add_item">Adicionar categoria</string>
 
     <string-array name="list_category_default">

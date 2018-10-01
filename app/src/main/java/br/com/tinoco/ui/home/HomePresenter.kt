@@ -3,6 +3,7 @@ package br.com.tinoco.ui.home
 import br.com.tinoco.api.UserApiClient
 import br.com.tinoco.models.response.CategoryResponse
 import br.com.tinoco.util.Constants
+import br.com.tinoco.util.ErrorUtils
 import io.paperdb.Paper
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -12,10 +13,6 @@ class HomePresenter(val homeView: HomeContract.View) : HomeContract.Presenter {
 
     private val api: UserApiClient = UserApiClient.create()
     private val subscriptions = CompositeDisposable()
-    var continueAdd: Boolean = false
-    private var index: Int = 0
-    lateinit var originalResponse: CategoryResponse
-    var vehicles: List<String> = ArrayList()
 
     override fun start() {
         homeView.showLoading(false)
@@ -44,34 +41,15 @@ class HomePresenter(val homeView: HomeContract.View) : HomeContract.Presenter {
                 .observeOn(AndroidSchedulers.mainThread()).subscribe({ response: CategoryResponse ->
                     homeView.showLoading(false)
                     showResult(response)
-
                 },
                         { error ->
                             homeView.showLoading(false)
-                            homeView.showMessage(error.message!!)
+                            homeView.showMessage(ErrorUtils.parseError(error))
                         })
         subscriptions.add(subscribe)
     }
 
     fun showResult(response: CategoryResponse) {
-        index = 0
-        continueAdd = true
-        originalResponse = response
-        addItens()
-    }
-
-
-    override fun addItens() {
-        if (continueAdd) {
-            if (index + 10 > originalResponse.list.size) {
-                continueAdd = false
-                vehicles = originalResponse.list.subList(0, originalResponse.list.size)
-                homeView.showSuccess(originalResponse.category, vehicles)
-            } else {
-                vehicles = originalResponse.list.subList(0, index + 10)
-                homeView.showSuccess(originalResponse.category, vehicles)
-            }
-            index += 10
-        }
+        homeView.showSuccess(response.category, response.list)
     }
 }
