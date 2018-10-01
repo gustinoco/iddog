@@ -13,7 +13,7 @@ import com.google.android.material.navigation.NavigationView
 class HomeActivity : AppCompatActivity(){
 
     private lateinit var drawerLayout: DrawerLayout
-    private lateinit var presenter: HomePresenter
+    lateinit var presenter: HomePresenter
     var countBack: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
