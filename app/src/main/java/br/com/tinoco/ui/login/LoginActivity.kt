@@ -10,17 +10,17 @@ import br.com.tinoco.R
 import br.com.tinoco.ui.home.HomeActivity
 import br.com.tinoco.util.showSnack
 import kotlinx.android.synthetic.main.activity_login.*
+import org.koin.android.ext.android.inject
 
 class LoginActivity : AppCompatActivity(), LoginContract.View {
 
-    override lateinit var presenter: LoginContract.Presenter
+    override val presenter: LoginContract.Presenter by inject()
     lateinit var view: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         view = findViewById(android.R.id.content)
-        presenter = LoginPresenter(this)
         initComponentsConfigurations()
     }
 
@@ -65,6 +65,12 @@ class LoginActivity : AppCompatActivity(), LoginContract.View {
 
     override fun onResume() {
         super.onResume()
+        presenter.subscribe(this)
         presenter.start()
+    }
+
+    override fun onPause() {
+        presenter.unSubscribe()
+        super.onPause()
     }
 }

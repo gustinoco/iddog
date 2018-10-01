@@ -14,19 +14,21 @@ import br.com.tinoco.util.Constants
 import br.com.tinoco.util.showSnack
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.fragment_home.*
+import org.koin.android.ext.android.inject
 
 
 class HomeFragment : Fragment(), HomeContract.View {
+
+    override val presenter: HomeContract.Presenter by inject()
 
     override fun getCategory(): List<String> {
         return resources.getStringArray(R.array.list_category_default).toList()
     }
 
     override fun newCategory(category: String) {
-        var menu = activity?.nav_view?.menu
+        val menu = activity?.nav_view?.menu
         menu?.add(category)
     }
-
 
     override fun showSuccess(message: String, list: List<String>) {
         txtTypeCategory.text = message
@@ -51,13 +53,9 @@ class HomeFragment : Fragment(), HomeContract.View {
         view?.showSnack(message)
     }
 
-    override lateinit var presenter: HomeContract.Presenter
-
-
     companion object {
         fun newInstance() = HomeFragment()
     }
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -67,4 +65,14 @@ class HomeFragment : Fragment(), HomeContract.View {
         return root
     }
 
+     override fun onResume() {
+        super.onResume()
+        presenter.subscribe(this)
+        presenter.start()
+    }
+
+     override fun onDestroyView() {
+        super.onDestroyView()
+        presenter.unSubscribe()
+    }
 }
