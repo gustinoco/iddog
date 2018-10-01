@@ -1,7 +1,7 @@
 # Desafio IDwall - iddog
 
 ## Instalação 
-[Download aqui](https://api-iddog.idwall.co) ou clone o repositório na sua máquina e faça checkout na branch . Faça o build da aplicação utilizando Android Studio
+[Download aqui](https://github.com/gustinoco/iddog/blob/develop/IDDog-Tinoco.apk) ou clone o repositório na sua máquina e faça checkout na branch . Faça o build da aplicação utilizando Android Studio
 
 ## Arquitetura
 
