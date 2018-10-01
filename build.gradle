@@ -21,6 +21,8 @@ ext {
     mockitoVersion = '1.5.0'
     mockitoTestVersion = '2.8.47'
     kotlinJunitTest = '1.2.31'
+    koinVersion = '1.0.1'
+
 }
 
 buildscript {

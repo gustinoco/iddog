@@ -10,10 +10,10 @@ import br.com.tinoco.R
 import br.com.tinoco.util.replaceFragmentInActivity
 import com.google.android.material.navigation.NavigationView
 
-class HomeActivity : AppCompatActivity(){
+class HomeActivity : AppCompatActivity() {
 
     private lateinit var drawerLayout: DrawerLayout
-    private lateinit var presenter: HomePresenter
+    lateinit var presenter: HomeContract.Presenter
     var countBack: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,7 +29,8 @@ class HomeActivity : AppCompatActivity(){
                 as HomeFragment? ?: HomeFragment.newInstance().also {
             replaceFragmentInActivity(it, R.id.contentFrame)
         }
-        presenter = HomePresenter(homeFragment)
+        presenter = homeFragment.presenter
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -51,21 +52,22 @@ class HomeActivity : AppCompatActivity(){
     }
 
     override fun onBackPressed() {
-        if(drawerLayout.isDrawerOpen(GravityCompat.START))
+        if (drawerLayout.isDrawerOpen(GravityCompat.START))
             drawerLayout.closeDrawers()
         else {
-            if(countBack == 0){
+            if (countBack == 0) {
                 countBack++
                 Toast.makeText(this, getString(R.string.press_back_again), Toast.LENGTH_SHORT).show()
-            }else
+            } else
                 super.onBackPressed()
         }
     }
 
 
-    override fun onResume() {
-        super.onResume()
-        presenter.start()
+
+    override fun onStop() {
+        presenter.unSubscribe()
+        super.onStop()
     }
 
 }
