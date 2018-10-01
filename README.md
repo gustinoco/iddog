@@ -21,10 +21,10 @@ Foram utilizadas as mais novas tecnologias, como suporte ao AndroidX, Koin para 
 
   * **MVP**, como arquitetura
   * **GIT** Flow, para organização de features implementadas
-  * **[Koin](https://insert-koin.io/), Para injeção de depêndencias.
-  * **[RXJava2](https://github.com/ReactiveX/RxJava), arquitetura reativa
-  * **[Retrofit](https://square.github.io/retrofit/), para requisições HTTP com RXAdapter
-  * **[Glide]**(https://github.com/bumptech/glide), para cacheamento e abrir as imagens vindas da API
-  * **[Paper]**(https://github.com/pilgr/Paper), para armazenamento do token 
-  * **[Crashlytics]**(https://fabric.io/kits/android/crashlytics), para análise durante o desenvolvimento e posterior.
+  * [Koin](https://insert-koin.io/), Para injeção de depêndencias.
+  * [RXJava2](https://github.com/ReactiveX/RxJava), arquitetura reativa
+  * [Retrofit](https://square.github.io/retrofit/), para requisições HTTP com RXAdapter
+  * [Glide](https://github.com/bumptech/glide), para cacheamento e abrir as imagens vindas da API
+  * [Paper](https://github.com/pilgr/Paper), para armazenamento do token 
+  * [Crashlytics](https://fabric.io/kits/android/crashlytics), para análise durante o desenvolvimento e posterior.
 
