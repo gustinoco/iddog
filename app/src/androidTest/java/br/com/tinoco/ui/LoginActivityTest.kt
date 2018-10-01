@@ -3,8 +3,6 @@ package br.com.tinoco.ui
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.intent.Intents.intended
-import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.intent.rule.IntentsTestRule
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.runner.AndroidJUnit4
@@ -13,11 +11,11 @@ import br.com.tinoco.api.UserApiClient
 import br.com.tinoco.models.User
 import br.com.tinoco.models.request.LoginRequest
 import br.com.tinoco.models.response.LoginResponse
-import br.com.tinoco.ui.home.HomeActivity
 import br.com.tinoco.ui.login.LoginActivity
-import br.com.tinoco.ui.login.LoginContract
-import br.com.tinoco.ui.login.LoginPresenter
 import io.reactivex.Observable
+import io.reactivex.android.plugins.RxAndroidPlugins
+import io.reactivex.plugins.RxJavaPlugins
+import io.reactivex.schedulers.Schedulers
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -33,13 +31,17 @@ class LoginActivityTest {
     @JvmField
     val activity = IntentsTestRule<LoginActivity>(LoginActivity::class.java)
 
+
     @Mock
     private lateinit var api: UserApiClient
 
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        activity.activity.presenter = LoginPresenter(activity.activity as LoginContract.View)
+        RxJavaPlugins.setNewThreadSchedulerHandler { Schedulers.trampoline() }
+        RxJavaPlugins.setInitNewThreadSchedulerHandler { Schedulers.trampoline() }
+        RxAndroidPlugins.setMainThreadSchedulerHandler { Schedulers.trampoline() }
+        RxAndroidPlugins.setInitMainThreadSchedulerHandler { Schedulers.trampoline() }
     }
 
     @Test
@@ -87,7 +89,6 @@ class LoginActivityTest {
         onView(withId(R.id.btnSignup))
                 .perform(click())
 
-        intended(hasComponent(HomeActivity::class.java.name))
     }
 }
 
