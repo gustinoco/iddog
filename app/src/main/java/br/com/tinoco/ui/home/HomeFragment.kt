@@ -26,10 +26,9 @@ class HomeFragment : Fragment(), HomeContract.View {
     }
 
     override fun newCategory(category: String) {
-        var menu = activity?.nav_view?.menu
+        val menu = activity?.nav_view?.menu
         menu?.add(category)
     }
-
 
     override fun showSuccess(message: String, list: List<String>) {
         txtTypeCategory.text = message
@@ -58,12 +57,22 @@ class HomeFragment : Fragment(), HomeContract.View {
         fun newInstance() = HomeFragment()
     }
 
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val root = inflater.inflate(R.layout.fragment_home, container, false)
         val rcv = root.findViewById<RecyclerView>(R.id.rcvDogs)
         rcv.layoutManager = GridLayoutManager(context, 3)
         return root
+    }
+
+     override fun onResume() {
+        super.onResume()
+        presenter.subscribe(this)
+        presenter.start()
+    }
+
+     override fun onDestroyView() {
+        super.onDestroyView()
+        presenter.unSubscribe()
     }
 }

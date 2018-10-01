@@ -30,8 +30,7 @@ class HomeActivity : AppCompatActivity() {
             replaceFragmentInActivity(it, R.id.contentFrame)
         }
         presenter = homeFragment.presenter
-        presenter.subscribe(homeFragment)
-        presenter.start()
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

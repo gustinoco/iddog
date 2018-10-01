@@ -8,7 +8,7 @@ import br.com.tinoco.util.mvp.RxPresenter
 import br.com.tinoco.util.rx.SchedulerProvider
 import io.paperdb.Paper
 
-class HomePresenter(val api: UserApiClient, private val schedulerProvider: SchedulerProvider) : RxPresenter<HomeContract.View>(), HomeContract.Presenter {
+class HomePresenter(private val api: UserApiClient, private val schedulerProvider: SchedulerProvider) : RxPresenter<HomeContract.View>(), HomeContract.Presenter {
 
     override var view: HomeContract.View? = null
 
@@ -40,7 +40,6 @@ class HomePresenter(val api: UserApiClient, private val schedulerProvider: Sched
                                 view?.showLoading(false)
                                 view?.showMessage(ErrorUtils.parseError(error))
                             })
-
         }
     }
 
